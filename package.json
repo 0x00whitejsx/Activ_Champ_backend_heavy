@@ -1,0 +1,16 @@
+{
+  "name": "activ_champ_backend_heavy",
+  "version": "1.0.0",
+  "description": "sport market place",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sport",
+    "market",
+    "place"
+  ],
+  "author": "Activ Champ",
+  "license": "ISC"
+}
