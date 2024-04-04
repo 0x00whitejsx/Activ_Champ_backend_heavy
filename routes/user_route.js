@@ -2,6 +2,19 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+
+
+// Create nodemailer transporter with your email credentials
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'x10tion007@gmail.com', // Your email address
+        pass: 'Christopher147369258@@' // Your email password
+    }
+});
+
+
 
 // signup
 router.post("/signup", async (req, res) => {
@@ -130,5 +143,66 @@ router.post("/signin", async (req, res) => {
         });
     }
 });
+
+
+router.post("/reset-password", async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                status: "FAILED",
+                message: "Empty email field"
+            });
+        }
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                status: "FAILED",
+                message: "User not found"
+            });
+        }
+
+        // Generate token for password reset with expiration after 1 hour
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Compose email message
+        const mailOptions = {
+            from: 'x10tion007@gmail.com', // Sender email address
+            to: email, // Receiver email address
+            subject: 'Password Reset Link', // Email subject
+            html: `<p>Dear ${user.username},</p>
+                   <p>You have requested to reset your password. Click the following link to reset your password:</p>
+                   <a href="https://activ-champ.onrender.com/user/reset-password/${token}">Reset Password</a>` // Reset password link
+        };
+
+        // Send email
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error("Error sending email:", error);
+                return res.status(500).json({
+                    status: "FAILED",
+                    message: "Failed to send password reset email"
+                });
+            }
+            console.log("Password reset email sent:", info.response);
+            res.status(200).json({
+                status: "SUCCESS",
+                message: "Password reset email sent successfully"
+            });
+        });
+
+    } catch (error) {
+        console.error("Error during password reset:", error);
+        res.status(500).json({
+            status: "FAILED",
+            message: "An error occurred while generating password reset token"
+        });
+    }
+});
+
+
 
 module.exports = router;
