@@ -14,7 +14,7 @@ app.use(cookiePerser())
 // route
 
 app.get('/', (req, res) => {
-    res.send("<h1>active Champ API </h1> <a href='#'>here is the link</a>")
+    res.send( "<center><h1>Active Champ API </h1> <br /><a href='https://documenter.getpostman.com/view/19754715/2sA3Bj7ZDj'>here is the link</a><center>")
 })
 
 
