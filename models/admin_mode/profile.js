@@ -13,7 +13,26 @@ const userSchema =  new mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    firstname: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true
+    },
+    lastname: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true
+    },
     email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        lowercase: true
+    },
+    phonenumber: {
         type: String,
         required: true,
         unique: true,
@@ -24,37 +43,32 @@ const userSchema =  new mongoose.Schema({
         type:String,
         required: true
     },
-    fullName: {
+    favoriteSports: [{
         type: String,
-        required: true,
-        trim: true
-    },
-    bio: {
-        type: String,
-        trim:true
-    },
-    profilePicture: {
-        type: String,
-        default: ""
-    },
-    coverPicture: {
-        type: String,
-        default: ""
-    },
-    posts:[{
+        enum: ['football', 'badminton', 'tennis', 'basketball', 'boxing', 'handball']
+      }],
+      team:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Posty'
-    }],
-    followers: [{
+        ref: "team"
+      },
+      bookings:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    }],
-    following:[{
+        ref: "bookings"
+      },
+    invite:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "invites_friends"
+    },
+    transections:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "transections"
     }],
+    notifications:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Notification"
+
+  },
 },
-   
     {
         timestamps: true
     }

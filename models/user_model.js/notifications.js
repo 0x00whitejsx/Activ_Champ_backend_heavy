@@ -1,6 +1,12 @@
-const mongoose  = require('mongoose')
+const mongoose = require('mongoose');
 
-const teamSchema =  new mongoose.Schema({})
-const team = mongoose.model("team", userSchema)
+const notificationSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  message: { type: String, required: true },
+  read: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now }
+});
 
-module.exports = team
+const Notification = mongoose.model('Notification', notificationSchema);
+
+module.exports = Notification;

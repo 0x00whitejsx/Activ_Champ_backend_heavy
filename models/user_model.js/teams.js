@@ -20,9 +20,9 @@ const teamSchema =  new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        players:{
+        Notifications:{
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Notifications"
+            ref: "Notification"
         },
 
 })
