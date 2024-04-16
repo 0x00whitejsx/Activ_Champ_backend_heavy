@@ -4,6 +4,9 @@ const bodyParser = require('body-parser'); // Import body-parser middleware
 const cookiePerser = require("cookie-parser")
 require('dotenv').config()
 const userRoute = require("./routes/public/auth")
+
+// router 
+const isAdminAuthRouter = require("./routes/admin/auth")
 // middleware 
 
 const app = express()
@@ -22,6 +25,7 @@ app.get('/', (req, res) => {
 app.use("/api/v1/auth", userRoute)
 
 // admin routes
+app.use("/api/v1/admin/auth", isAdminAuthRouter)
 
 
 const port = process.env.PORT || 3004
