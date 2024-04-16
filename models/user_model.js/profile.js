@@ -59,6 +59,12 @@ const userSchema =  new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "event"
     }],
+
+    team: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Team"
+    }],
+
     invite:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "invites_friends"

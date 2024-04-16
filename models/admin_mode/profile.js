@@ -6,14 +6,7 @@ const userSchema =  new mongoose.Schema({
         enum: ['user', 'owner'],
         default: 'user' // Default value is optional
       },
-    username: {
-        type: String,
-        required: true,
-        unique:true,
-        trim: true,
-        lowercase: true
-    },
-    firstname: {
+    address: {
         type: String,
         required: true,
         trim: true,
@@ -47,6 +40,11 @@ const userSchema =  new mongoose.Schema({
         type: String,
         enum: ['football', 'badminton', 'tennis', 'basketball', 'boxing', 'handball']
       }],
+
+    facility: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref: "Facility"
+    },
       team:{
         type:mongoose.Schema.Types.ObjectId,
         ref: "team"
@@ -75,6 +73,6 @@ const userSchema =  new mongoose.Schema({
 
 )
 
-const User = mongoose.model("User", userSchema)
+const adminUser = mongoose.model("adminUser", userSchema)
 
-module.exports = User
+module.exports = adminUser
