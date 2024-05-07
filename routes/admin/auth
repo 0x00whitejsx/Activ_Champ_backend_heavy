@@ -2,14 +2,17 @@ const express = require("express");
 const router = express.Router();
 const {isSignup,
     isSignin,
-    isLogout, isfetchedUser} = require("../../controllers/admin/auth");
+    isLogout, 
+    isAdminUser } = require("../../controllers/admin/auth");
 const upload = require('../../middleware/upload');
-
+const { serchfacility } = require("../../controllers/admin/operation/Search")
 
 router.post('/signup', upload.array("images", 5),isSignup)
 router.post('/signin', isSignin)
 router.get('/logout', isLogout)
-router.get('/', isfetchedUser)
+router.get('/', isAdminUser)
+
+router.get('/facility/search', serchfacility)
 
 
 

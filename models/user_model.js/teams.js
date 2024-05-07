@@ -1,6 +1,12 @@
 const mongoose  = require('mongoose')
+const Facility = require("../admin_mode/facilities")
+
 
 const teamSchema =  new mongoose.Schema({
+        facility:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref: "Facility"
+        },
         teamname:{
             type: String,
             required:true,
@@ -16,10 +22,10 @@ const teamSchema =  new mongoose.Schema({
         joiningCode:{
             type:Number
         },
-        players:{
+        players:[{
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
-        },
+        }],
         Notifications:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Notification"

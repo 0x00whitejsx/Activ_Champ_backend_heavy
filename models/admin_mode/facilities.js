@@ -9,17 +9,14 @@ const facilitySchema =  new mongoose.Schema({
     },
     category: [{
         type: String,
-        enum: ['football', 'badminton', 'tennis', 'basketball', 'boxing', 'handball']
+        enum: ["football", "badminton", "tennis", "basketball", "boxing", "handball", "none"],
+        default: "none"
       }],
     facilitydescription:{
         type:String,
         lowercase: true,
         trim: true
     },
-    favoriteSports: [{
-        type: String,
-        enum: ['football', 'badminton', 'tennis', 'basketball', 'boxing', 'handball']
-      }],
     address: {
         type: String,
         required: true,
@@ -54,21 +51,26 @@ const facilitySchema =  new mongoose.Schema({
         trim: true,
         max:150
     },
-
-    activehours:{
+    activehours:[{
         dayOfWeek: { type: Number}, // Day of the week (0 for Sunday, 1 for Monday, ..., 6 for Saturday)
         openinghours: { type: String }, // Start time of the active hour (in HH:mm format)
         closinghours: { type: String }, // End time of the active hour (in HH:mm format)
-    },
+    }],
     chargeForFacility: [{
-        startGameAt: { type: String }, // Start time of the charge
-        endAt: { type: String }, // End time of the charge
+        // startGameAt: { type: String }, // Start time of the charge
+        // endAt: { type: String }, // End time of the charge
+        // peiod:{type:NUmber},
         price: { type: Number }, // Price for this time range
       }],
+    //   chargerperplayer
     facilityphoto:[{
         type: String,
         required: false
     }],
+    Bookings:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Bookings"
+    }]
 
 })
 const Facility = mongoose.model("Facility", facilitySchema)

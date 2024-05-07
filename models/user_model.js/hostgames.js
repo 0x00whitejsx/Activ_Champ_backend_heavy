@@ -1,17 +1,25 @@
 const mongoose  = require('mongoose')
 
 const hostSchema =  new mongoose.Schema({
-    hostAt:{
-        type: String,
+    hostedfacility:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Facility",
+        requied: true
+    },
+    hostby:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
     numberofplayers:{
         type:Number,
     },
     datetoplay:{
-        type: Date
+        startGameAt: { type: String }, // Start time of the charge
+        endAt: { type: String }, // End time of the charge
     },
     timetoplay:{
-        type: TimeRanges
+        startGameAt: { type: String }, // Start time of the charge
+        endAt: { type: String }, // End time of the charge
     },
     recurrentbooking:{
         type:Boolean

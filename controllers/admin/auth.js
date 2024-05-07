@@ -38,7 +38,9 @@ const isSignup = async (req, res) => {
         if (existingFacility) {
             return res.status(400).json({ msg: "Oops! A facility with this name or email already exists" });
         }
-
+        if(password == "" || facilityname == "" || category == "") {
+            return res.status(400).json({ msg: "Oops! fiels is required places" });
+        }
     
 
         // Generate hash for password
@@ -81,26 +83,83 @@ const isSignup = async (req, res) => {
 };
 
 
-
-
-
 const isSignin = async(req, res) => {
     // const {  } = req.body
-    res.json({msg:"market is greate"})
+   try {
+     const { email, password } = req. body
+     let user
+
+    if (email) {
+            user = await Facility.findOne({ email });
+        }
+        // Check if user exists
+    if (!user) {
+            return res.status(404).json({ msg: "Sorry, we couldn't find user credentials!" });
+        }
+
+        // Compare passwords
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ msg: "Wrong password input" });
+        }
+
+        // Create JWT token
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+            // console.log(token)
+        // Remove password from user data
+        const userData = { ...user._doc };
+        delete userData.password;
+
+        // Set JWT token in cookie and send user data
+        res.cookie("token", token, { httpOnly: true }).status(200).json(userData);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    
+   }
 }
 
 
 
 const isLogout = async(req, res) => {
     // const {  } = req.body
-    res.send("market is greate")
+    try {
+        res.clearCookie("token", {
+                        sameSite:"none", secure:true
+        }).status(200).json("User logout successfully!")
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 }
 
 
-const isfetchedUser = async(req, res) => {
+const isAdminUser = async(req, res) => {
     // const {  } = req.body
-    res.send("market is greate")
+    try {
+        const token = req.cookies.token;
+        if (!token) {
+            return res.status(401).json({ error: "Token not provided" });
+        }
+
+        jwt.verify(token, process.env.JWT_SECRET, async (err, data) => {
+            if (err) {
+                return res.status(401).json({ error: "Invalid token" });
+            }
+
+            const userId = data._id;
+            const user = await User.findOne({ _id: userId });
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+
+            res.status(200).json(user);
+        });
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 }
+
 
 
 
@@ -109,5 +168,5 @@ module.exports = {
     isSignup,
     isSignin,
     isLogout,
-    isfetchedUser
+    isAdminUser
 }
