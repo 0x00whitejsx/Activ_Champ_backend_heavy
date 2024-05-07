@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
     }
 </style>
                 <h1>Active Champ API </h1> 
-                <br /><a href='https://documenter.getpostman.com/view/19754715/2sA3Bj7ZDj'>here is the link</a>
+                <br /><a href='https://documenter.getpostman.com/view/19754715/2sA3Bj7ZDj'>Full Documetation here</a>
                 <table>
                 <tr>
                   <th>API</th>
@@ -84,7 +84,7 @@ const port = process.env.PORT || 3004
 
 const start = async () => {
     try {
-        await connectDB(process.env.MONGODB_URI_local)
+        await connectDB(process.env.MONGODB_URI)
         app.listen(port, console.log(`Server is listen port ${port}`))
     } catch (error) {
         console.log(error)
