@@ -6,6 +6,9 @@ const hostSchema =  new mongoose.Schema({
         ref: "Facility",
         requied: true
     },
+    typeofgames:{
+        type:Boolean
+    },
     hostby:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"

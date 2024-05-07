@@ -72,7 +72,10 @@ const createHostGame = async (req, res) => {
 const getAllHostGames = async (req, res) => {
     try {
         const hostGames = await HostGAME.find().populate('hostedfacility hostby datetoplay timetoplay numberofplayers').select('-__v');
-        res.status(200).json(hostGames);
+        res.status(200).json({msg:hostGames, 
+                                total: hostGames.length || 0
+
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
